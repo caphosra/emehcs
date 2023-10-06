@@ -14,17 +14,14 @@ int main(void) {
                     case T_RIGHT_PAREN:
                         printf("T_RIGHT_PAREN ");
                         break;
-                    case T_LEFT_BRACKET:
-                        printf("T_LEFT_BRACKET ");
-                        break;
-                    case T_RIGHT_BRACKET:
-                        printf("T_RIGHT_BRACKET ");
-                        break;
                     case T_IDENT:
                         printf("T_IDENT(%s) ", token->ident);
                         break;
                     case T_NUM:
                         printf("T_NUM(%d) ", token->num);
+                        break;
+                    case T_STRING:
+                        printf("T_STRING(%s) ", token->text);
                         break;
                 }
                 ext_arr_consume(arr);

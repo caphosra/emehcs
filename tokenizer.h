@@ -9,8 +9,6 @@
 enum TokenType {
     T_LEFT_PAREN,
     T_RIGHT_PAREN,
-    T_LEFT_BRACKET,
-    T_RIGHT_BRACKET,
     T_IDENT,
     T_NUM,
     T_STRING
