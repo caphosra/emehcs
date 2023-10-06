@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "utils/peekable.h"
+
 void take_ident(struct ExtArr* tokens, char* is_num, int* pos, char* buffer) {
     if (*pos) {
         char* str = calloc(*pos + 1, sizeof(char));
@@ -31,9 +33,13 @@ struct ExtArr* tokenize(FILE* file) {
     int pos = 0;
     char* buffer = calloc(IDENT_MAX_LENGTH + 1, sizeof(char));
 
-    char tmp;
-    while (fread(&tmp, sizeof(char), 1, file)) {
-        if (tmp == '\0') continue;
+    struct Peekable* stream = calloc(1, sizeof(struct Peekable));
+    stream->file = file;
+
+    while (peekable_read(stream)) {
+        char tmp = peekable_read(stream);
+        peekable_consume(stream);
+
         if (tmp == '\n') break;
         if (tmp == '(') {
             take_ident(tokens, &is_num, &pos, buffer);
@@ -88,6 +94,9 @@ struct ExtArr* tokenize(FILE* file) {
     }
 
     take_ident(tokens, &is_num, &pos, buffer);
+
+    free(buffer);
+    free(stream);
 
     return tokens;
 }

@@ -4,6 +4,7 @@ project(emehcs VERSION 1.0.0)
 
 set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/utils/extarr.c
+    ${CMAKE_SOURCE_DIR}/utils/peekable.c
     ${CMAKE_SOURCE_DIR}/main.c
     ${CMAKE_SOURCE_DIR}/tokenizer.c
 )
