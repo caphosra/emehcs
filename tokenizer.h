@@ -24,3 +24,4 @@ struct Token {
 };
 
 struct ExtArr* tokenize(FILE* file);
+void print_tokens(struct ExtArr* tokens);

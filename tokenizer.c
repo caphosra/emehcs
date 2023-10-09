@@ -156,3 +156,35 @@ struct ExtArr* tokenize(FILE* file) {
 
     return tokens;
 }
+
+void print_tokens(struct ExtArr* tokens) {
+    char first = 1;
+    while (!ext_arr_is_empty(tokens)) {
+        if (!first) {
+            printf(" ");
+        }
+        first = 0;
+
+        struct Token* token = (struct Token*)ext_arr_get_r_ptr(tokens);
+        switch (token->type) {
+            case T_LEFT_PAREN:
+                printf("T_LEFT_PAREN");
+                break;
+            case T_RIGHT_PAREN:
+                printf("T_RIGHT_PAREN");
+                break;
+            case T_IDENT:
+                printf("T_IDENT(%s)", token->ident);
+                break;
+            case T_NUM:
+                printf("T_NUM(%d)", token->num);
+                break;
+            case T_STRING:
+                printf("T_STRING(%s)", token->text);
+                break;
+        }
+        ext_arr_consume(tokens);
+    }
+    printf("\n");
+    ext_arr_reset_r_ptr(tokens);
+}
