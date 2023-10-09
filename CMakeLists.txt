@@ -12,4 +12,4 @@ set(EMEHCS_SOURCES
 )
 
 add_executable(emehcs ${EMEHCS_SOURCES})
-target_include_directories(emehcs PRIVATE ${CMAKE_SOURCE_DIR})
+target_include_directories(emehcs PRIVATE ${CMAKE_SOURCE_DIR}/include)
