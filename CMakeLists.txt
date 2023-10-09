@@ -6,6 +6,7 @@ set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/utils/extarr.c
     ${CMAKE_SOURCE_DIR}/utils/peekable.c
     ${CMAKE_SOURCE_DIR}/main.c
+    ${CMAKE_SOURCE_DIR}/parser.c
     ${CMAKE_SOURCE_DIR}/tokenizer.c
 )
 
