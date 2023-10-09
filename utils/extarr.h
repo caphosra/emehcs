@@ -27,3 +27,4 @@ int ext_arr_consume(struct ExtArr* arr);
 char* ext_arr_get_w_ptr(struct ExtArr* arr);
 char* ext_arr_get_r_ptr(struct ExtArr* arr);
 int ext_arr_is_empty(struct ExtArr* arr);
+void ext_arr_reset_r_ptr(struct ExtArr* arr);

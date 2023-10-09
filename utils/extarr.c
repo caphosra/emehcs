@@ -58,3 +58,10 @@ inline char* ext_arr_get_r_ptr(struct ExtArr* arr) {
 inline int ext_arr_is_empty(struct ExtArr* arr) {
     return ext_arr_get_w_ptr(arr) == ext_arr_get_r_ptr(arr);
 }
+
+void ext_arr_reset_r_ptr(struct ExtArr* arr) {
+    arr->r_current_pos = 0;
+    while (arr->r_page->prev) {
+        arr->r_page = arr->r_page->prev;
+    }
+}
