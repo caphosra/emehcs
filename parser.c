@@ -2,6 +2,7 @@
 
 #include "tokenizer.h"
 #include "utils/utils.h"
+#include "utils/error.h"
 
 inline struct Token* look_token(struct ExtArr* arr) {
     return (struct Token*)ext_arr_get_r_ptr(arr);
@@ -9,7 +10,7 @@ inline struct Token* look_token(struct ExtArr* arr) {
 
 struct Expr* parse_expr(struct ExtArr* arr) {
     if (ext_arr_is_empty(arr)) {
-        exit(1);
+        REPORT_ERR("There is no expression which are constructed with none of tokens.");
     }
     struct Token* token = look_token(arr);
     switch (token->type) {
@@ -39,7 +40,7 @@ struct Expr* parse_expr(struct ExtArr* arr) {
             int pos = 0;
             while (look_token(arr)->type != T_RIGHT_PAREN) {
                 if (pos == ARG_LENGTH_MAX) {
-                    exit(1);
+                    REPORT_ERR("The number of arguments is too large.");
                 }
                 expr->args[pos] = parse_expr(arr);
                 pos++;
@@ -48,8 +49,7 @@ struct Expr* parse_expr(struct ExtArr* arr) {
             return expr;
         }
         case T_RIGHT_PAREN: {
-            exit(1);
-            break;
+            REPORT_ERR("There is no expression which starts with \")\".");
         }
         case T_IDENT: {
             ALLOC(expr, struct Expr);

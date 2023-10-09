@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "utils/peekable.h"
+#include "utils/error.h"
 
 #define IS_IDENT_FRAGMENT(x) ((x) != '(' && (x) != ')' && (x) != '"' && ('!' <= (x) && (x) <= '~'))
 #define IS_NUMERIC(x) ('0' <= (x) && (x) <= '9')
@@ -16,7 +17,7 @@ void tokenize_ident(struct ExtArr* tokens, struct Peekable* stream) {
         char head = peekable_read(stream);
         if (IS_IDENT_FRAGMENT(head)) {
             if (pos == IDENT_MAX_LENGTH) {
-                exit(1);
+                REPORT_ERR("A name of a variable is too long.");
             }
             buffer[pos] = head;
             pos++;
@@ -45,7 +46,7 @@ void tokenize_num(struct ExtArr* tokens, struct Peekable* stream) {
         char head = peekable_read(stream);
         if (IS_NUMERIC(head)) {
             if (pos == IDENT_MAX_LENGTH) {
-                exit(1);
+                REPORT_ERR("A number is too big.");
             }
             buffer[pos] = head;
             pos++;
@@ -68,17 +69,17 @@ void tokenize_string(struct ExtArr* tokens, struct Peekable* stream) {
     char* buffer = calloc(IDENT_MAX_LENGTH + 1, sizeof(char));
 
     if (peekable_read(stream) != '"') {
-        exit(1);
+        REPORT_ERR("There is no string which does not start with \'\"\'.");
     }
     peekable_consume(stream);
 
     while (1) {
         char head = peekable_read(stream);
         if (!head) {
-            exit(1);
+            REPORT_ERR("A string cannot contains a null byte.");
         }
         if (head == '\n') {
-            exit(1);
+            REPORT_ERR("A string cannot contains a LF.");
         }
         if (head == '"') {
             peekable_consume(stream);
@@ -95,7 +96,7 @@ void tokenize_string(struct ExtArr* tokens, struct Peekable* stream) {
             return;
         }
         if (pos == IDENT_MAX_LENGTH) {
-            exit(1);
+            REPORT_ERR("The string is too long.");
         }
         buffer[pos] = head;
         pos++;

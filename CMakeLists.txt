@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 project(emehcs VERSION 1.0.0)
 
 set(EMEHCS_SOURCES
+    ${CMAKE_SOURCE_DIR}/utils/error.c
     ${CMAKE_SOURCE_DIR}/utils/extarr.c
     ${CMAKE_SOURCE_DIR}/utils/peekable.c
     ${CMAKE_SOURCE_DIR}/main.c
