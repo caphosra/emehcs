@@ -8,7 +8,8 @@ enum ExprType {
     E_APP,
     E_VAR,
     E_NUM,
-    E_STRING
+    E_STRING,
+    E_BOOL
 };
 
 #define ARG_LENGTH_MAX 0x80 - 1

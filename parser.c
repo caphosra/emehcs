@@ -52,12 +52,30 @@ struct Expr* parse_expr(struct ExtArr* arr) {
             REPORT_ERR("There is no expression which starts with \")\".");
         }
         case T_IDENT: {
-            ALLOC(expr, struct Expr);
-            expr->type = E_VAR;
-            expr->var_name = token->text;
+            if (!strcmp(token->text, "#t")) {
+                ALLOC(expr, struct Expr);
+                expr->type = E_BOOL;
+                expr->num = 1;
 
-            ext_arr_consume(arr);
-            return expr;
+                ext_arr_consume(arr);
+                return expr;
+            }
+            else if (!strcmp(token->text, "#f")) {
+                ALLOC(expr, struct Expr);
+                expr->type = E_BOOL;
+                expr->num = 0;
+
+                ext_arr_consume(arr);
+                return expr;
+            }
+            else {
+                ALLOC(expr, struct Expr);
+                expr->type = E_VAR;
+                expr->var_name = token->text;
+
+                ext_arr_consume(arr);
+                return expr;
+            }
         }
     }
 }
@@ -85,6 +103,13 @@ void print_expr_internal(struct Expr* expr) {
         case E_STRING:
             printf("E_STRING(%s)", expr->text);
             break;
+        case E_BOOL:
+            if (expr->num) {
+                printf("E_BOOL(#t)");
+            }
+            else {
+                printf("E_BOOL(#f)");
+            }
         default:
             break;
     }

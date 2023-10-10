@@ -5,7 +5,8 @@
 enum ValueType {
     V_FUNCTION,
     V_NUM,
-    V_STRING
+    V_STRING,
+    V_BOOL
 };
 
 struct Value {

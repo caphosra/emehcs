@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "builtin.h"
 #include "utils/error.h"
 #include "utils/utils.h"
-#include "builtin.h"
 
 void put_variable(struct Environment* env, char* name, struct Value* value) {
     ALLOC(set, struct EnvironmentSet);
@@ -63,8 +63,8 @@ struct Value* evaluate(struct Environment* env, struct Expr* expr) {
                 if (expr->args[i]) {
                     // TODO: The environment should be copied.
                     args[i] = evaluate(env, expr->args[i]);
-                }
-                else break;
+                } else
+                    break;
             }
 
             if (func->type != V_FUNCTION) {
@@ -73,8 +73,11 @@ struct Value* evaluate(struct Environment* env, struct Expr* expr) {
 
             return (*func->evaluate)(args);
         }
-        default: {
-            return NULL;
+        case E_BOOL: {
+            ALLOC(val, struct Value);
+            val->type = V_BOOL;
+            val->num = expr->num;
+            return val;
         }
     }
 }
@@ -95,6 +98,14 @@ void print_value(struct Value* value) {
         }
         case V_FUNCTION: {
             printf("<func>\n");
+            break;
+        }
+        case V_BOOL: {
+            if (value->num) {
+                printf("#t\n");
+            } else {
+                printf("#f\n");
+            }
             break;
         }
     }
