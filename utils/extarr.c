@@ -4,9 +4,9 @@
 
 #include "utils/utils.h"
 
-struct ExtArr* ext_arr_init(int unit_size) {
-    ALLOC(arr, struct ExtArr);
-    ALLOC(page, struct ExtArrPage);
+ExtArr* ext_arr_init(int unit_size) {
+    ALLOC(arr, ExtArr);
+    ALLOC(page, ExtArrPage);
     if (unit_size > EXT_ARR_PAGE_SIZE) {
         return NULL;
     }
@@ -16,11 +16,11 @@ struct ExtArr* ext_arr_init(int unit_size) {
     return arr;
 }
 
-int ext_arr_mark_used(struct ExtArr* arr) {
+int ext_arr_mark_used(ExtArr* arr) {
     arr->w_current_pos++;
     if (arr->w_current_pos * arr->unit_size > EXT_ARR_PAGE_SIZE) {
         // The page is all consumed.
-        ALLOC(page, struct ExtArrPage);
+        ALLOC(page, ExtArrPage);
 
         if (!page) {
             // Failed to allocate the memory.
@@ -35,7 +35,7 @@ int ext_arr_mark_used(struct ExtArr* arr) {
     return 0;
 }
 
-int ext_arr_consume(struct ExtArr* arr) {
+int ext_arr_consume(ExtArr* arr) {
     arr->r_current_pos++;
     if (arr->r_current_pos * arr->unit_size > EXT_ARR_PAGE_SIZE) {
         arr->r_current_pos = 0;
@@ -47,19 +47,19 @@ int ext_arr_consume(struct ExtArr* arr) {
     return 0;
 }
 
-inline char* ext_arr_get_w_ptr(struct ExtArr* arr) {
+inline char* ext_arr_get_w_ptr(ExtArr* arr) {
     return arr->w_page->data + arr->unit_size * arr->w_current_pos;
 }
 
-inline char* ext_arr_get_r_ptr(struct ExtArr* arr) {
+inline char* ext_arr_get_r_ptr(ExtArr* arr) {
     return arr->r_page->data + arr->unit_size * arr->r_current_pos;
 }
 
-inline int ext_arr_is_empty(struct ExtArr* arr) {
+inline int ext_arr_is_empty(ExtArr* arr) {
     return ext_arr_get_w_ptr(arr) == ext_arr_get_r_ptr(arr);
 }
 
-void ext_arr_reset_r_ptr(struct ExtArr* arr) {
+void ext_arr_reset_r_ptr(ExtArr* arr) {
     arr->r_current_pos = 0;
     while (arr->r_page->prev) {
         arr->r_page = arr->r_page->prev;

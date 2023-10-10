@@ -35,6 +35,6 @@ struct Expr {
     };
 };
 
-struct Token* look_token(struct ExtArr* arr);
-struct Expr* parse_expr(struct ExtArr* arr);
+struct Token* look_token(ExtArr* arr);
+struct Expr* parse_expr(ExtArr* arr);
 void print_expr(struct Expr* expr);

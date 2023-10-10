@@ -1,9 +1,10 @@
 #include <stdio.h>
 
-struct Peekable {
+struct _Peekable {
     FILE* file;
     char current;
 };
+typedef struct _Peekable Peekable;
 
-char peekable_read(struct Peekable* peekable);
-void peekable_consume(struct Peekable* peekable);
+char peekable_read(Peekable* peekable);
+void peekable_consume(Peekable* peekable);

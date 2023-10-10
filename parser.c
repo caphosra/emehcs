@@ -4,11 +4,11 @@
 #include "utils/utils.h"
 #include "utils/error.h"
 
-inline struct Token* look_token(struct ExtArr* arr) {
+inline struct Token* look_token(ExtArr* arr) {
     return (struct Token*)ext_arr_get_r_ptr(arr);
 }
 
-struct Expr* parse_expr(struct ExtArr* arr) {
+struct Expr* parse_expr(ExtArr* arr) {
     if (ext_arr_is_empty(arr)) {
         REPORT_ERR("There is no expression which are constructed with none of tokens.");
     }

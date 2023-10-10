@@ -23,5 +23,5 @@ struct Token {
     };
 };
 
-struct ExtArr* tokenize(FILE* file);
-void print_tokens(struct ExtArr* tokens);
+ExtArr* tokenize(FILE* file);
+void print_tokens(ExtArr* tokens);

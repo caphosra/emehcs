@@ -4,9 +4,9 @@
 #include "utils/utils.h"
 #include "utils/error.h"
 
-struct Value* builtin_add_internal(struct Value** values) {
-    struct Value* left = values[0];
-    struct Value* right = values[1];
+Value* builtin_add_internal(Value** values) {
+    Value* left = values[0];
+    Value* right = values[1];
     if (!left || !right) {
         REPORT_ERR("The function + needs more arguments.");
     }
@@ -17,14 +17,14 @@ struct Value* builtin_add_internal(struct Value** values) {
         REPORT_ERR("The number of arguments passed to + should be 2.");
     }
 
-    ALLOC(val, struct Value);
+    ALLOC(val, Value);
     val->type = V_NUM;
     val->num = left->num + right->num;
     return val;
 }
 
-struct Value* get_builtin_add() {
-    ALLOC(val, struct Value);
+Value* get_builtin_add() {
+    ALLOC(val, Value);
     val->type = V_FUNCTION;
     val->evaluate = *builtin_add_internal;
     return val;

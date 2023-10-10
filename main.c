@@ -14,15 +14,15 @@ int main(void) {
             printf("Error: %s (%s line: %d)\n", err_msg, err_file, err_pos);
         }
         else {
-            struct ExtArr* arr = tokenize(stdin);
+            ExtArr* arr = tokenize(stdin);
             print_tokens(arr);
 
             struct Expr* expr = parse_expr(arr);
             print_expr(expr);
 
-            ALLOC(env, struct Environment);
+            ALLOC(env, Environment);
             setup_builtin(env);
-            struct Value* val = evaluate(env, expr);
+            Value* val = evaluate(env, expr);
             print_value(val);
         }
     }

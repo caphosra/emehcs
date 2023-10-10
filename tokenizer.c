@@ -9,7 +9,7 @@
 #define IS_IDENT_FRAGMENT(x) ((x) != '(' && (x) != ')' && (x) != '"' && ('!' <= (x) && (x) <= '~'))
 #define IS_NUMERIC(x) ('0' <= (x) && (x) <= '9')
 
-void tokenize_ident(struct ExtArr* tokens, struct Peekable* stream) {
+void tokenize_ident(ExtArr* tokens, Peekable* stream) {
     int pos = 0;
     char* buffer = calloc(IDENT_MAX_LENGTH + 1, sizeof(char));
 
@@ -38,7 +38,7 @@ void tokenize_ident(struct ExtArr* tokens, struct Peekable* stream) {
     }
 }
 
-void tokenize_num(struct ExtArr* tokens, struct Peekable* stream) {
+void tokenize_num(ExtArr* tokens, Peekable* stream) {
     int pos = 0;
     char* buffer = calloc(IDENT_MAX_LENGTH + 1, sizeof(char));
 
@@ -64,7 +64,7 @@ void tokenize_num(struct ExtArr* tokens, struct Peekable* stream) {
     }
 }
 
-void tokenize_string(struct ExtArr* tokens, struct Peekable* stream) {
+void tokenize_string(ExtArr* tokens, Peekable* stream) {
     int pos = 0;
     char* buffer = calloc(IDENT_MAX_LENGTH + 1, sizeof(char));
 
@@ -104,14 +104,14 @@ void tokenize_string(struct ExtArr* tokens, struct Peekable* stream) {
     }
 }
 
-struct ExtArr* tokenize(FILE* file) {
-    struct ExtArr* tokens = ext_arr_init(sizeof(struct Token));
+ExtArr* tokenize(FILE* file) {
+    ExtArr* tokens = ext_arr_init(sizeof(struct Token));
 
     char is_num = 1;
     int pos = 0;
     char* buffer = calloc(IDENT_MAX_LENGTH + 1, sizeof(char));
 
-    struct Peekable* stream = calloc(1, sizeof(struct Peekable));
+    Peekable* stream = calloc(1, sizeof(Peekable));
     stream->file = file;
 
     while (peekable_read(stream)) {
@@ -158,7 +158,7 @@ struct ExtArr* tokenize(FILE* file) {
     return tokens;
 }
 
-void print_tokens(struct ExtArr* tokens) {
+void print_tokens(ExtArr* tokens) {
     char first = 1;
     while (!ext_arr_is_empty(tokens)) {
         if (!first) {

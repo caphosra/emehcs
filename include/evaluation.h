@@ -2,36 +2,40 @@
 
 #include "parser.h"
 
-enum ValueType {
+typedef enum _ValueType ValueType;
+enum _ValueType {
     V_FUNCTION,
     V_NUM,
     V_STRING,
     V_BOOL
 };
 
-struct Value {
-    enum ValueType type;
+typedef struct _Value Value;
+struct _Value {
+    ValueType type;
     union {
-        struct Value* (*evaluate)(struct Value** values);
+        Value* (*evaluate)(Value** values);
         int num;
         char* text;
     };
 };
 
-struct EnvironmentSet {
-    struct EnvironmentSet* prev;
+typedef struct _EnvironmentSet EnvironmentSet;
+struct _EnvironmentSet {
+    EnvironmentSet* prev;
     char* name;
-    struct Value* value;
+    Value* value;
 };
 
-struct Environment {
-    struct EnvironmentSet* current;
+typedef struct _Environment Environment;
+struct _Environment {
+    EnvironmentSet* current;
 };
 
-void put_variable(struct Environment* env, char* name, struct Value* value);
-void pop_variable(struct Environment* env);
-struct Value* find_variable(struct Environment* env, char* name);
+void put_variable(Environment* env, char* name, Value* value);
+void pop_variable(Environment* env);
+Value* find_variable(Environment* env, char* name);
 
-struct Value* evaluate(struct Environment* env, struct Expr* expr);
-void setup_builtin(struct Environment* env);
-void print_value(struct Value* value);
+Value* evaluate(Environment* env, struct Expr* expr);
+void setup_builtin(Environment* env);
+void print_value(Value* value);
