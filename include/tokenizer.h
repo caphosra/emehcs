@@ -6,7 +6,10 @@
 
 #define IDENT_MAX_LENGTH 0x100 - 1
 
-enum TokenType {
+typedef enum _TokenType TokenType;
+typedef struct _Token Token;
+
+enum _TokenType {
     T_LEFT_PAREN,
     T_RIGHT_PAREN,
     T_IDENT,
@@ -14,8 +17,8 @@ enum TokenType {
     T_STRING
 };
 
-struct Token {
-    enum TokenType type;
+struct _Token {
+    TokenType type;
     union {
         char* ident;
         char* text;

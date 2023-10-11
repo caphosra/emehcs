@@ -1,21 +1,21 @@
 #include "parser.h"
 
 #include "tokenizer.h"
-#include "utils/utils.h"
 #include "utils/error.h"
+#include "utils/utils.h"
 
-inline struct Token* look_token(ExtArr* arr) {
-    return (struct Token*)ext_arr_get_r_ptr(arr);
+inline Token* look_token(ExtArr* arr) {
+    return (Token*)ext_arr_get_r_ptr(arr);
 }
 
-struct Expr* parse_expr(ExtArr* arr) {
+Expr* parse_expr(ExtArr* arr) {
     if (ext_arr_is_empty(arr)) {
         REPORT_ERR("There is no expression which are constructed with none of tokens.");
     }
-    struct Token* token = look_token(arr);
+    Token* token = look_token(arr);
     switch (token->type) {
         case T_NUM: {
-            ALLOC(expr, struct Expr);
+            ALLOC(expr, Expr);
             expr->type = E_NUM;
             expr->num = token->num;
 
@@ -23,7 +23,7 @@ struct Expr* parse_expr(ExtArr* arr) {
             return expr;
         }
         case T_STRING: {
-            ALLOC(expr, struct Expr);
+            ALLOC(expr, Expr);
             expr->type = E_STRING;
             expr->text = token->text;
 
@@ -33,7 +33,7 @@ struct Expr* parse_expr(ExtArr* arr) {
         case T_LEFT_PAREN: {
             ext_arr_consume(arr);
 
-            ALLOC(expr, struct Expr);
+            ALLOC(expr, Expr);
             expr->type = E_APP;
             expr->func = parse_expr(arr);
 
@@ -53,23 +53,21 @@ struct Expr* parse_expr(ExtArr* arr) {
         }
         case T_IDENT: {
             if (!strcmp(token->text, "#t")) {
-                ALLOC(expr, struct Expr);
+                ALLOC(expr, Expr);
                 expr->type = E_BOOL;
                 expr->num = 1;
 
                 ext_arr_consume(arr);
                 return expr;
-            }
-            else if (!strcmp(token->text, "#f")) {
-                ALLOC(expr, struct Expr);
+            } else if (!strcmp(token->text, "#f")) {
+                ALLOC(expr, Expr);
                 expr->type = E_BOOL;
                 expr->num = 0;
 
                 ext_arr_consume(arr);
                 return expr;
-            }
-            else {
-                ALLOC(expr, struct Expr);
+            } else {
+                ALLOC(expr, Expr);
                 expr->type = E_VAR;
                 expr->var_name = token->text;
 
@@ -80,7 +78,7 @@ struct Expr* parse_expr(ExtArr* arr) {
     }
 }
 
-void print_expr_internal(struct Expr* expr) {
+void print_expr_internal(Expr* expr) {
     switch (expr->type) {
         case E_APP:
             printf("E_APP");
@@ -106,15 +104,14 @@ void print_expr_internal(struct Expr* expr) {
         case E_BOOL:
             if (expr->num) {
                 printf("E_BOOL(#t)");
-            }
-            else {
+            } else {
                 printf("E_BOOL(#f)");
             }
             break;
     }
 }
 
-void print_expr(struct Expr* expr) {
+void print_expr(Expr* expr) {
     print_expr_internal(expr);
     printf("\n");
 }

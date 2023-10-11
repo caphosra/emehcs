@@ -1,23 +1,22 @@
 #include <setjmp.h>
 #include <stdlib.h>
 
-#include "utils/utils.h"
-#include "utils/error.h"
+#include "evaluation.h"
 #include "parser.h"
 #include "tokenizer.h"
-#include "evaluation.h"
+#include "utils/error.h"
+#include "utils/utils.h"
 
 int main(void) {
     while (1) {
         printf(">> ");
         if (setjmp(err_jmp)) {
             printf("Error: %s (%s line: %d)\n", err_msg, err_file, err_pos);
-        }
-        else {
+        } else {
             ExtArr* arr = tokenize(stdin);
             print_tokens(arr);
 
-            struct Expr* expr = parse_expr(arr);
+            Expr* expr = parse_expr(arr);
             print_expr(expr);
 
             ALLOC(env, Environment);

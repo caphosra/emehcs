@@ -4,8 +4,7 @@ char peekable_read(Peekable* peekable) {
     if (!peekable->current) {
         if (fread(&peekable->current, sizeof(char), 1, peekable->file)) {
             return peekable_read(peekable);
-        }
-        else {
+        } else {
             return 0;
         }
     }

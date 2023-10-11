@@ -1,17 +1,18 @@
 #include "builtin.h"
-
 #include "evaluation.h"
-#include "utils/utils.h"
 #include "utils/error.h"
+#include "utils/utils.h"
+
+typedef struct _LambdaInternalData LambdaInternalData;
 
 struct _LambdaInternalData {
     int var_num;
     char* vars[LAMBDA_ARG_LENGTH_MAX + 1];
-    struct Expr* body;
+    Expr* body;
 };
 
-Value* builtin_lambda_body_internal(Environment* env, struct Expr** args, void* internal) {
-    struct _LambdaInternalData* data = (struct _LambdaInternalData*)internal;
+Value* builtin_lambda_body_internal(Environment* env, Expr** args, void* internal) {
+    LambdaInternalData* data = (LambdaInternalData*)internal;
 
     VALIDATE_ARGS_NUM("<lambda>", args, data->var_num);
 
@@ -30,22 +31,21 @@ Value* builtin_lambda_body_internal(Environment* env, struct Expr** args, void* 
     return ret;
 }
 
-Value* builtin_lambda_internal(Environment* env, struct Expr** args, void* internal) {
+Value* builtin_lambda_internal(Environment* env, Expr** args, void* internal) {
     VALIDATE_ARGS_NUM("lambda", args, 2);
 
-    ALLOC(internal_data, struct _LambdaInternalData);
+    ALLOC(internal_data, LambdaInternalData);
 
-    struct Expr* arguments = args[0];
+    Expr* arguments = args[0];
     internal_data->body = args[1];
 
     ASSERT(arguments->type == E_APP, "The arguments of lambda should be enclosed by parentheses.");
 
     for (int i = -1; i < LAMBDA_ARG_LENGTH_MAX - 1; i++) {
-        struct Expr* arg;
+        Expr* arg;
         if (i == -1) {
             arg = arguments->func;
-        }
-        else {
+        } else {
             arg = arguments->args[i];
         }
         if (!arg) {

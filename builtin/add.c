@@ -1,10 +1,9 @@
 #include "builtin.h"
-
 #include "evaluation.h"
-#include "utils/utils.h"
 #include "utils/error.h"
+#include "utils/utils.h"
 
-Value* builtin_add_internal(Environment* env, struct Expr** args, void* internal) {
+Value* builtin_add_internal(Environment* env, Expr** args, void* internal) {
     VALIDATE_ARGS_NUM("+", args, 2);
 
     Value* left = evaluate(env, args[0]);

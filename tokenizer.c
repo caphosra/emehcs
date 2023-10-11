@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "utils/peekable.h"
 #include "utils/error.h"
+#include "utils/peekable.h"
 
 #define IS_IDENT_FRAGMENT(x) ((x) != '(' && (x) != ')' && (x) != '"' && ('!' <= (x) && (x) <= '~'))
 #define IS_NUMERIC(x) ('0' <= (x) && (x) <= '9')
@@ -22,12 +22,11 @@ void tokenize_ident(ExtArr* tokens, Peekable* stream) {
             buffer[pos] = head;
             pos++;
             peekable_consume(stream);
-        }
-        else {
+        } else {
             char* str = calloc(pos + 1, sizeof(char));
             strcpy(str, buffer);
 
-            struct Token* w_ptr = (struct Token*)ext_arr_get_w_ptr(tokens);
+            Token* w_ptr = (Token*)ext_arr_get_w_ptr(tokens);
             w_ptr->type = T_IDENT;
             w_ptr->ident = str;
             ext_arr_mark_used(tokens);
@@ -51,9 +50,8 @@ void tokenize_num(ExtArr* tokens, Peekable* stream) {
             buffer[pos] = head;
             pos++;
             peekable_consume(stream);
-        }
-        else {
-            struct Token* w_ptr = (struct Token*)ext_arr_get_w_ptr(tokens);
+        } else {
+            Token* w_ptr = (Token*)ext_arr_get_w_ptr(tokens);
             w_ptr->type = T_NUM;
             w_ptr->num = atoi(buffer);
             ext_arr_mark_used(tokens);
@@ -87,7 +85,7 @@ void tokenize_string(ExtArr* tokens, Peekable* stream) {
             char* str = calloc(pos + 1, sizeof(char));
             strcpy(str, buffer);
 
-            struct Token* w_ptr = (struct Token*)ext_arr_get_w_ptr(tokens);
+            Token* w_ptr = (Token*)ext_arr_get_w_ptr(tokens);
             w_ptr->type = T_STRING;
             w_ptr->text = str;
             ext_arr_mark_used(tokens);
@@ -105,7 +103,7 @@ void tokenize_string(ExtArr* tokens, Peekable* stream) {
 }
 
 ExtArr* tokenize(FILE* file) {
-    ExtArr* tokens = ext_arr_init(sizeof(struct Token));
+    ExtArr* tokens = ext_arr_init(sizeof(Token));
 
     char is_num = 1;
     int pos = 0;
@@ -122,7 +120,7 @@ ExtArr* tokenize(FILE* file) {
             break;
         }
         if (head == '(') {
-            struct Token* w_ptr = (struct Token*)ext_arr_get_w_ptr(tokens);
+            Token* w_ptr = (Token*)ext_arr_get_w_ptr(tokens);
             w_ptr->type = T_LEFT_PAREN;
             ext_arr_mark_used(tokens);
 
@@ -130,7 +128,7 @@ ExtArr* tokenize(FILE* file) {
             continue;
         }
         if (head == ')') {
-            struct Token* w_ptr = (struct Token*)ext_arr_get_w_ptr(tokens);
+            Token* w_ptr = (Token*)ext_arr_get_w_ptr(tokens);
             w_ptr->type = T_RIGHT_PAREN;
             ext_arr_mark_used(tokens);
 
@@ -166,7 +164,7 @@ void print_tokens(ExtArr* tokens) {
         }
         first = 0;
 
-        struct Token* token = (struct Token*)ext_arr_get_r_ptr(tokens);
+        Token* token = (Token*)ext_arr_get_r_ptr(tokens);
         switch (token->type) {
             case T_LEFT_PAREN:
                 printf("T_LEFT_PAREN");

@@ -1,8 +1,12 @@
 #pragma once
 
+#include "tokenizer.h"
 #include "utils/extarr.h"
 
-enum ExprType {
+typedef enum _ExprType ExprType;
+typedef struct _Expr Expr;
+
+enum _ExprType {
     E_APP,
     E_VAR,
     E_NUM,
@@ -13,12 +17,12 @@ enum ExprType {
 #define ARG_LENGTH_MAX 0x80 - 1
 #define LAMBDA_ARG_LENGTH_MAX 0x40 - 1
 
-struct Expr {
-    enum ExprType type;
+struct _Expr {
+    ExprType type;
     union {
         struct {
-            struct Expr* func;
-            struct Expr* args[ARG_LENGTH_MAX + 1];
+            Expr* func;
+            Expr* args[ARG_LENGTH_MAX + 1];
         };
         char* var_name;
         int num;
@@ -26,6 +30,6 @@ struct Expr {
     };
 };
 
-struct Token* look_token(ExtArr* arr);
-struct Expr* parse_expr(ExtArr* arr);
-void print_expr(struct Expr* expr);
+Token* look_token(ExtArr* arr);
+Expr* parse_expr(ExtArr* arr);
+void print_expr(Expr* expr);

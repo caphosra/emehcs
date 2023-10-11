@@ -34,7 +34,7 @@ Value* find_variable(Environment* env, char* name) {
     return NULL;
 }
 
-Value* evaluate(Environment* env, struct Expr* expr) {
+Value* evaluate(Environment* env, Expr* expr) {
     switch (expr->type) {
         case E_NUM: {
             ALLOC(val, Value);
@@ -104,7 +104,7 @@ void print_value(Value* value) {
     }
 }
 
-int count_arguments(struct Expr** exprs) {
+int count_arguments(Expr** exprs) {
     for (int i = 0; i <= ARG_LENGTH_MAX; i++) {
         if (!exprs[i]) return i;
     }
