@@ -13,6 +13,7 @@ enum ExprType {
 };
 
 #define ARG_LENGTH_MAX 0x80 - 1
+#define LAMBDA_ARG_LENGTH_MAX 0x40 - 1
 
 struct Expr {
     enum ExprType type;
@@ -22,7 +23,7 @@ struct Expr {
             struct Expr* def_body;
         };
         struct {
-            char* vars;
+            char* vars[LAMBDA_ARG_LENGTH_MAX + 1];
             struct Expr* lambda_body;
         };
         struct {
@@ -36,5 +37,6 @@ struct Expr {
 };
 
 struct Token* look_token(ExtArr* arr);
+struct Expr* extract_expr(struct Expr* expr);
 struct Expr* parse_expr(ExtArr* arr);
 void print_expr(struct Expr* expr);
