@@ -8,52 +8,6 @@ inline struct Token* look_token(ExtArr* arr) {
     return (struct Token*)ext_arr_get_r_ptr(arr);
 }
 
-struct Expr* extract_expr(struct Expr* expr) {
-    switch (expr->type) {
-        case E_APP: {
-            if (expr->func->type == E_VAR) {
-                if (!strcmp(expr->func->var_name, "lambda")) {
-                    struct Expr* arguments = expr->args[0];
-                    struct Expr* lambda_body = expr->args[1];
-                    if (!arguments || !lambda_body || expr->args[2]) {
-                        REPORT_ERR("The number of arguments of lambda should be 2.");
-                    }
-
-                    ALLOC(lambda_expr, struct Expr);
-                    lambda_expr->type = E_LAMBDA;
-
-                    if (arguments->type != E_APP) {
-                        REPORT_ERR("The arguments of lambda should be enclosed by parentheses.");
-                    }
-                    for (int i = -1; i < LAMBDA_ARG_LENGTH_MAX - 1; i++) {
-                        struct Expr* arg;
-                        if (i == -1) {
-                            arg = arguments->func;
-                        }
-                        else {
-                            arg = arguments->args[i];
-                        }
-                        if (!arg) break;
-                        if (arg->type != E_VAR) {
-                            REPORT_ERR("The arguments of lambda should be named.");
-                        }
-                        lambda_expr->vars[i + 1] = arg->var_name;
-                    }
-
-                    lambda_expr->lambda_body = lambda_body;
-
-                    free(arguments);
-                    return lambda_expr;
-                }
-            }
-            return expr;
-        }
-        default: {
-            return expr;
-        }
-    }
-}
-
 struct Expr* parse_expr(ExtArr* arr) {
     if (ext_arr_is_empty(arr)) {
         REPORT_ERR("There is no expression which are constructed with none of tokens.");
@@ -92,7 +46,7 @@ struct Expr* parse_expr(ExtArr* arr) {
                 pos++;
             }
             ext_arr_consume(arr);
-            return extract_expr(expr);
+            return expr;
         }
         case T_RIGHT_PAREN: {
             REPORT_ERR("There is no expression which starts with \")\".");
@@ -157,18 +111,6 @@ void print_expr_internal(struct Expr* expr) {
                 printf("E_BOOL(#f)");
             }
             break;
-        case E_LAMBDA: {
-            printf("E_LAMBDA");
-            printf("(");
-            for (int i = 0; i < LAMBDA_ARG_LENGTH_MAX; i++) {
-                if (!expr->vars[i]) break;
-                printf("%s ", expr->vars[i]);
-            }
-            printf("-> ");
-            print_expr_internal(expr->lambda_body);
-            printf(")");
-            break;
-        }
     }
 }
 

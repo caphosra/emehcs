@@ -58,20 +58,12 @@ Value* evaluate(Environment* env, struct Expr* expr) {
         }
         case E_APP: {
             Value* func = evaluate(env, expr->func);
-            Value** args = (Value**)calloc(ARG_LENGTH_MAX, sizeof(Value*));
-            for (int i = 0; i < ARG_LENGTH_MAX; i++) {
-                if (expr->args[i]) {
-                    // TODO: The environment should be copied.
-                    args[i] = evaluate(env, expr->args[i]);
-                } else
-                    break;
-            }
 
             if (func->type != V_FUNCTION) {
                 REPORT_ERR("Cannot apply a value to the other value which is not a function.");
             }
 
-            return (*func->evaluate)(args);
+            return (*func->evaluate_func)(env, expr->args, func->internal);
         }
         case E_BOOL: {
             ALLOC(val, Value);
@@ -84,6 +76,7 @@ Value* evaluate(Environment* env, struct Expr* expr) {
 
 void setup_builtin(Environment* env) {
     put_variable(env, "+", get_builtin_add());
+    put_variable(env, "lambda", get_builtin_lambda());
 }
 
 void print_value(Value* value) {
@@ -109,4 +102,11 @@ void print_value(Value* value) {
             break;
         }
     }
+}
+
+int count_arguments(struct Expr** exprs) {
+    for (int i = 0; i <= ARG_LENGTH_MAX; i++) {
+        if (!exprs[i]) return i;
+    }
+    REPORT_ERR("An overflow detected on arguments.");
 }

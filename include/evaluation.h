@@ -1,8 +1,13 @@
 #pragma once
 
 #include "parser.h"
+#include "utils/error.h"
 
 typedef enum _ValueType ValueType;
+typedef struct _Value Value;
+typedef struct _EnvironmentSet EnvironmentSet;
+typedef struct _Environment Environment;
+
 enum _ValueType {
     V_FUNCTION,
     V_NUM,
@@ -10,24 +15,24 @@ enum _ValueType {
     V_BOOL
 };
 
-typedef struct _Value Value;
 struct _Value {
     ValueType type;
     union {
-        Value* (*evaluate)(Value** values);
+        struct {
+            Value* (*evaluate_func)(Environment* env, struct Expr** args, void* internal);
+            void* internal;
+        };
         int num;
         char* text;
     };
 };
 
-typedef struct _EnvironmentSet EnvironmentSet;
 struct _EnvironmentSet {
     EnvironmentSet* prev;
     char* name;
     Value* value;
 };
 
-typedef struct _Environment Environment;
 struct _Environment {
     EnvironmentSet* current;
 };
@@ -39,3 +44,9 @@ Value* find_variable(Environment* env, char* name);
 Value* evaluate(Environment* env, struct Expr* expr);
 void setup_builtin(Environment* env);
 void print_value(Value* value);
+
+int count_arguments(struct Expr** exprs);
+
+#define VALIDATE_ARGS_NUM(func_name, exprs, num) \
+    if (count_arguments(exprs) != num) \
+        REPORT_ERR("The function %.10s needs just %d argument(s).", func_name, num);
