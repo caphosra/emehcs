@@ -41,21 +41,16 @@ Value* builtin_lambda_internal(Environment* env, Expr** args, void* internal) {
 
     ASSERT(arguments->type == E_APP, "The arguments of lambda should be enclosed by parentheses.");
 
-    for (int i = -1; i < LAMBDA_ARG_LENGTH_MAX - 1; i++) {
-        Expr* arg;
-        if (i == -1) {
-            arg = arguments->func;
-        } else {
-            arg = arguments->args[i];
-        }
+    for (int i = 0; i < LAMBDA_ARG_LENGTH_MAX + 1; i++) {
+        Expr* arg = arguments->args[i];
         if (!arg) {
-            internal_data->var_num = i + 1;
+            internal_data->var_num = i;
             break;
         }
         if (arg->type != E_VAR) {
             REPORT_ERR("The arguments of lambda should be named.");
         }
-        internal_data->vars[i + 1] = arg->var_name;
+        internal_data->vars[i] = arg->var_name;
     }
 
     ALLOC(val, Value);

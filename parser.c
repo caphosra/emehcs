@@ -35,14 +35,14 @@ Expr* parse_expr(ExtArr* arr) {
 
             ALLOC(expr, Expr);
             expr->type = E_APP;
-            expr->func = parse_expr(arr);
+            expr->args[0] = parse_expr(arr);
 
             int pos = 0;
             while (look_token(arr)->type != T_RIGHT_PAREN) {
                 if (pos == ARG_LENGTH_MAX) {
                     REPORT_ERR("The number of arguments is too large.");
                 }
-                expr->args[pos] = parse_expr(arr);
+                expr->args[pos + 1] = parse_expr(arr);
                 pos++;
             }
             ext_arr_consume(arr);
@@ -83,10 +83,11 @@ void print_expr_internal(Expr* expr) {
         case E_APP:
             printf("E_APP");
             printf("(");
-            print_expr_internal(expr->func);
             int pos = 0;
             while (expr->args[pos]) {
-                printf(", ");
+                if (pos) {
+                    printf(", ");
+                }
                 print_expr_internal(expr->args[pos]);
                 pos++;
             }

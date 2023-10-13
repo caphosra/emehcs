@@ -14,16 +14,13 @@ enum _ExprType {
     E_BOOL
 };
 
-#define ARG_LENGTH_MAX 0x80 - 1
+#define ARG_LENGTH_MAX 0x80 - 2
 #define LAMBDA_ARG_LENGTH_MAX 0x40 - 1
 
 struct _Expr {
     ExprType type;
     union {
-        struct {
-            Expr* func;
-            Expr* args[ARG_LENGTH_MAX + 1];
-        };
+        Expr* args[ARG_LENGTH_MAX + 2];
         char* var_name;
         int num;
         char* text;

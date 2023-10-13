@@ -57,13 +57,13 @@ Value* evaluate(Environment* env, Expr* expr) {
             return val;
         }
         case E_APP: {
-            Value* func = evaluate(env, expr->func);
+            Value* func = evaluate(env, expr->args[0]);
 
             if (func->type != V_FUNCTION) {
                 REPORT_ERR("Cannot apply a value to the other value which is not a function.");
             }
 
-            return (*func->evaluate_func)(env, expr->args, func->internal);
+            return (*func->evaluate_func)(env, expr->args + 1, func->internal);
         }
         case E_BOOL: {
             ALLOC(val, Value);
@@ -76,6 +76,7 @@ Value* evaluate(Environment* env, Expr* expr) {
 
 void setup_builtin(Environment* env) {
     put_variable(env, "+", get_builtin_add());
+    put_variable(env, "define", get_builtin_define());
     put_variable(env, "lambda", get_builtin_lambda());
 }
 

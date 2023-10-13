@@ -8,6 +8,9 @@
 #include "utils/utils.h"
 
 int main(void) {
+    ALLOC(env, Environment);
+    setup_builtin(env);
+
     while (1) {
         printf(">> ");
         if (setjmp(err_jmp)) {
@@ -19,8 +22,6 @@ int main(void) {
             Expr* expr = parse_expr(arr);
             print_expr(expr);
 
-            ALLOC(env, Environment);
-            setup_builtin(env);
             Value* val = evaluate(env, expr);
             print_value(val);
         }
