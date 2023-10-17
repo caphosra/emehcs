@@ -40,6 +40,7 @@ struct _Environment {
 void put_variable(Environment* env, char* name, Value* value);
 void pop_variable(Environment* env);
 Value* find_variable(Environment* env, char* name);
+void copy_env(Environment* dist, Environment* src);
 
 Value* evaluate(Environment* env, Expr* expr);
 void setup_builtin(Environment* env);

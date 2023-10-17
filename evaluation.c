@@ -8,32 +8,6 @@
 #include "utils/error.h"
 #include "utils/utils.h"
 
-void put_variable(Environment* env, char* name, Value* value) {
-    ALLOC(set, EnvironmentSet);
-    set->name = name;
-    set->value = value;
-
-    set->prev = env->current;
-    env->current = set;
-}
-
-void pop_variable(Environment* env) {
-    EnvironmentSet* trash = env->current;
-    env->current = env->current->prev;
-    free(trash);
-}
-
-Value* find_variable(Environment* env, char* name) {
-    EnvironmentSet* current = env->current;
-    while (current) {
-        if (!strcmp(current->name, name)) {
-            return current->value;
-        }
-        current = current->prev;
-    }
-    return NULL;
-}
-
 Value* evaluate(Environment* env, Expr* expr) {
     switch (expr->type) {
         case E_NUM: {

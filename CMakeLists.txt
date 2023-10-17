@@ -8,6 +8,7 @@ set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/builtin/lambda.c
     ${CMAKE_SOURCE_DIR}/utils/extarr.c
     ${CMAKE_SOURCE_DIR}/utils/peekable.c
+    ${CMAKE_SOURCE_DIR}/env.c
     ${CMAKE_SOURCE_DIR}/evaluation.c
     ${CMAKE_SOURCE_DIR}/main.c
     ${CMAKE_SOURCE_DIR}/parser.c

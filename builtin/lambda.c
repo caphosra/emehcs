@@ -8,11 +8,20 @@ typedef struct _LambdaInternalData LambdaInternalData;
 struct _LambdaInternalData {
     int var_num;
     char* vars[LAMBDA_ARG_LENGTH_MAX + 1];
+    Environment captured;
     Expr* body;
 };
 
 Value* builtin_lambda_body_internal(Environment* env, Expr** args, void* internal) {
     LambdaInternalData* data = (LambdaInternalData*)internal;
+
+    int captured_var_num = 0;
+    EnvironmentSet* current = data->captured.current;
+    while (current) {
+        put_variable(env, current->name, current->value);
+        captured_var_num++;
+        current = current->prev;
+    }
 
     VALIDATE_ARGS_NUM("<lambda>", args, data->var_num);
 
@@ -24,7 +33,7 @@ Value* builtin_lambda_body_internal(Environment* env, Expr** args, void* interna
 
     Value* ret = evaluate(env, data->body);
 
-    for (int i = 0; i < data->var_num; i++) {
+    for (int i = 0; i < data->var_num + captured_var_num; i++) {
         pop_variable(env);
     }
 
@@ -52,6 +61,8 @@ Value* builtin_lambda_internal(Environment* env, Expr** args, void* internal) {
         }
         internal_data->vars[i] = arg->var_name;
     }
+
+    copy_env(&internal_data->captured, env);
 
     ALLOC(val, Value);
     val->type = V_FUNCTION;
