@@ -50,8 +50,17 @@ Value* evaluate(Environment* env, Expr* expr) {
 
 void setup_builtin(Environment* env) {
     put_variable(env, "+", get_builtin_add());
+    put_variable(env, "if", get_builtin_branch());
     put_variable(env, "define", get_builtin_define());
+    put_variable(env, "=", get_builtin_eq());
+    put_variable(env, ">", get_builtin_gt());
+    put_variable(env, ">=", get_builtin_gte());
     put_variable(env, "lambda", get_builtin_lambda());
+    put_variable(env, "let", get_builtin_let());
+    put_variable(env, "<", get_builtin_lt());
+    put_variable(env, "<=", get_builtin_lte());
+    put_variable(env, "-", get_builtin_minus());
+    put_variable(env, "*", get_builtin_mul());
 }
 
 void print_value(Value* value) {
