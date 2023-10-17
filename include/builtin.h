@@ -17,3 +17,4 @@ Value* get_builtin_lt();
 Value* get_builtin_lte();
 Value* get_builtin_minus();
 Value* get_builtin_mul();
+Value* get_builtin_quote();

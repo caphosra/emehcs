@@ -10,7 +10,7 @@ Value* builtin_minus_internal(Environment* env, Expr** args, void* internal) {
     Value* right = evaluate(env, args[1]);
 
     if (left->type != V_NUM || right->type != V_NUM) {
-        REPORT_ERR("The arguments of + should be numerics.");
+        REPORT_ERR("The arguments of - should be numerics.");
     }
 
     ALLOC(val, Value);

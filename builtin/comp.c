@@ -141,6 +141,9 @@ int is_equal(Environment* env, Value* left, Value* right) {
         case V_NIL_PAIR: {
             return 1;
         }
+        case V_IDENT: {
+            return !strcmp(left->ident, right->ident);
+        }
         case V_UNDEFINED: {
             return 0;
         }

@@ -1,5 +1,4 @@
-#ifndef EVALUATION_H
-#define EVALUATION_H
+#pragma once
 
 #include "parser.h"
 #include "utils/error.h"
@@ -16,6 +15,7 @@ enum _ValueType {
     V_BOOL,
     V_PAIR,
     V_NIL_PAIR,
+    V_IDENT,
     V_UNDEFINED
 };
 
@@ -28,6 +28,7 @@ struct _Value {
         };
         int num;
         char* text;
+        char* ident;
         struct {
             Value* left;
             Value* right;
@@ -64,5 +65,3 @@ int count_arguments(Expr** exprs);
 #define VALIDATE_ARGS_NUM(func_name, exprs, num) \
     if (count_arguments(exprs) != num)           \
         REPORT_ERR("The function %.10s needs just %d argument(s).", func_name, num);
-
-#endif

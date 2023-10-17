@@ -13,6 +13,7 @@ set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/builtin/list.c
     ${CMAKE_SOURCE_DIR}/builtin/minus.c
     ${CMAKE_SOURCE_DIR}/builtin/mul.c
+    ${CMAKE_SOURCE_DIR}/builtin/quote.c
     ${CMAKE_SOURCE_DIR}/utils/extarr.c
     ${CMAKE_SOURCE_DIR}/utils/peekable.c
     ${CMAKE_SOURCE_DIR}/env.c

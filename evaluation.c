@@ -71,6 +71,16 @@ void setup_builtin(Environment* env) {
     put_variable(env, "<=", get_builtin_lte());
     put_variable(env, "-", get_builtin_minus());
     put_variable(env, "*", get_builtin_mul());
+    put_variable(env, "quote", get_builtin_quote());
+}
+
+int is_list(Value* value) {
+    Value* current = value;
+    while (1) {
+        if (current->type == V_NIL_PAIR) return 1;
+        if (current->type != V_PAIR) return 0;
+        current = current->right;
+    }
 }
 
 void print_value(Value* value) {
@@ -96,15 +106,36 @@ void print_value(Value* value) {
             break;
         }
         case V_PAIR: {
-            printf("(");
-            print_value(value->left);
-            printf(" . ");
-            print_value(value->right);
-            printf(")");
-            break;
+            if (is_list(value)) {
+                printf("(");
+                int fst = 1;
+                Value* current = value;
+                while (current->type != V_NIL_PAIR) {
+                    if (fst) fst = 0;
+                    else printf(" ");
+
+                    print_value(current->left);
+
+                    current = current->right;
+                }
+                printf(")");
+                break;
+            }
+            else {
+                printf("(");
+                print_value(value->left);
+                printf(" . ");
+                print_value(value->right);
+                printf(")");
+                break;
+            }
         }
         case V_NIL_PAIR: {
             printf("()");
+            break;
+        }
+        case V_IDENT: {
+            printf("%s", value->ident);
             break;
         }
         case V_UNDEFINED: {
