@@ -12,6 +12,7 @@ typedef struct _Token Token;
 enum _TokenType {
     T_LEFT_PAREN,
     T_RIGHT_PAREN,
+    T_QUOTE,
     T_IDENT,
     T_NUM,
     T_STRING

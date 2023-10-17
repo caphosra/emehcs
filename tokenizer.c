@@ -119,6 +119,14 @@ ExtArr* tokenize(FILE* file) {
             peekable_consume(stream);
             break;
         }
+        if (head == '\'') {
+            Token* w_ptr = (Token*)ext_arr_get_w_ptr(tokens);
+            w_ptr->type = T_QUOTE;
+            ext_arr_mark_used(tokens);
+
+            peekable_consume(stream);
+            continue;
+        }
         if (head == '(') {
             Token* w_ptr = (Token*)ext_arr_get_w_ptr(tokens);
             w_ptr->type = T_LEFT_PAREN;
@@ -166,6 +174,9 @@ void print_tokens(ExtArr* tokens) {
 
         Token* token = (Token*)ext_arr_get_r_ptr(tokens);
         switch (token->type) {
+            case T_QUOTE:
+                printf("T_QUOTE");
+                break;
             case T_LEFT_PAREN:
                 printf("T_LEFT_PAREN");
                 break;

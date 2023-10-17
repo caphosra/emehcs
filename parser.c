@@ -30,6 +30,19 @@ Expr* parse_expr(ExtArr* arr) {
             ext_arr_consume(arr);
             return expr;
         }
+        case T_QUOTE: {
+            ext_arr_consume(arr);
+
+            ALLOC(quote_func_name, Expr);
+            quote_func_name->type = E_VAR;
+            quote_func_name->var_name = "quote";
+
+            ALLOC(quote_func, Expr);
+            quote_func->type = E_APP;
+            quote_func->args[0] = quote_func_name;
+            quote_func->args[1] = parse_expr(arr);
+            return quote_func;
+        }
         case T_LEFT_PAREN: {
             ext_arr_consume(arr);
 
