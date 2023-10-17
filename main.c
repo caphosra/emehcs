@@ -24,6 +24,7 @@ int main(void) {
 
             Value* val = evaluate(env, expr);
             print_value(val);
+            printf("\n");
         }
     }
 }

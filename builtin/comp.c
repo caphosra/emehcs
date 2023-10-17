@@ -10,7 +10,7 @@ Value* builtin_lt_internal(Environment* env, Expr** args, void* internal) {
     Value* right = evaluate(env, args[1]);
 
     if (left->type != V_NUM || right->type != V_NUM) {
-        REPORT_ERR("The arguments of + should be numerics.");
+        REPORT_ERR("The arguments of < should be numerics.");
     }
 
     ALLOC(val, Value);
@@ -33,7 +33,7 @@ Value* builtin_gt_internal(Environment* env, Expr** args, void* internal) {
     Value* right = evaluate(env, args[1]);
 
     if (left->type != V_NUM || right->type != V_NUM) {
-        REPORT_ERR("The arguments of + should be numerics.");
+        REPORT_ERR("The arguments of > should be numerics.");
     }
 
     ALLOC(val, Value);
@@ -56,7 +56,7 @@ Value* builtin_lte_internal(Environment* env, Expr** args, void* internal) {
     Value* right = evaluate(env, args[1]);
 
     if (left->type != V_NUM || right->type != V_NUM) {
-        REPORT_ERR("The arguments of + should be numerics.");
+        REPORT_ERR("The arguments of <= should be numerics.");
     }
 
     ALLOC(val, Value);
@@ -79,7 +79,7 @@ Value* builtin_gte_internal(Environment* env, Expr** args, void* internal) {
     Value* right = evaluate(env, args[1]);
 
     if (left->type != V_NUM || right->type != V_NUM) {
-        REPORT_ERR("The arguments of + should be numerics.");
+        REPORT_ERR("The arguments of >= should be numerics.");
     }
 
     ALLOC(val, Value);
@@ -102,7 +102,7 @@ Value* builtin_eq_internal(Environment* env, Expr** args, void* internal) {
     Value* right = evaluate(env, args[1]);
 
     if (left->type != V_NUM || right->type != V_NUM) {
-        REPORT_ERR("The arguments of + should be numerics.");
+        REPORT_ERR("The arguments of = should be numerics.");
     }
 
     ALLOC(val, Value);
@@ -115,5 +115,55 @@ Value* get_builtin_eq() {
     ALLOC(val, Value);
     val->type = V_FUNCTION;
     val->evaluate_func = *builtin_eq_internal;
+    return val;
+}
+
+int is_equal(Environment* env, Value* left, Value* right) {
+    if (left->type != right->type)
+        return 0;
+
+    switch (left->type) {
+        case V_FUNCTION: {
+            // TODO: compare functions.
+            return 0;
+        }
+        case V_BOOL:
+        case V_NUM: {
+            return left->num == right->num;
+        }
+        case V_STRING: {
+            return !strcmp(left->text, right->text);
+        }
+        case V_PAIR: {
+            return is_equal(env, left->left, right->left)
+                && is_equal(env, left->right, right->right);
+        }
+        case V_NIL_PAIR: {
+            return 1;
+        }
+        case V_UNDEFINED: {
+            return 0;
+        }
+    }
+}
+
+Value* builtin_is_equal_internal(Environment* env, Expr** args, void* internal) {
+    VALIDATE_ARGS_NUM("equal?", args, 2);
+
+    Value* left = evaluate(env, args[0]);
+    Value* right = evaluate(env, args[1]);
+
+    if (is_equal(env, left, right)) {
+        return &CONST_TRUE;
+    }
+    else {
+        return &CONST_FALSE;
+    }
+}
+
+Value* get_builtin_is_equal() {
+    ALLOC(val, Value);
+    val->type = V_FUNCTION;
+    val->evaluate_func = *builtin_is_equal_internal;
     return val;
 }

@@ -44,10 +44,7 @@ Value* builtin_define_internal(Environment* env, Expr** args, void* internal) {
     }
     else REPORT_ERR("The name of the function to be defined is invalid.");
 
-    ALLOC(val, Value);
-    val->type = V_NUM;
-    val->num = 0;
-    return val;
+    return &CONST_UNDEFINED;
 }
 
 Value* get_builtin_define() {

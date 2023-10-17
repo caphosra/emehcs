@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EVALUATION_H
+#define EVALUATION_H
 
 #include "parser.h"
 #include "utils/error.h"
@@ -12,7 +13,10 @@ enum _ValueType {
     V_FUNCTION,
     V_NUM,
     V_STRING,
-    V_BOOL
+    V_BOOL,
+    V_PAIR,
+    V_NIL_PAIR,
+    V_UNDEFINED
 };
 
 struct _Value {
@@ -24,8 +28,17 @@ struct _Value {
         };
         int num;
         char* text;
+        struct {
+            Value* left;
+            Value* right;
+        };
     };
 };
+
+extern const Value CONST_NIL_PAIR;
+extern const Value CONST_TRUE;
+extern const Value CONST_FALSE;
+extern const Value CONST_UNDEFINED;
 
 struct _EnvironmentSet {
     EnvironmentSet* prev;
@@ -51,3 +64,5 @@ int count_arguments(Expr** exprs);
 #define VALIDATE_ARGS_NUM(func_name, exprs, num) \
     if (count_arguments(exprs) != num)           \
         REPORT_ERR("The function %.10s needs just %d argument(s).", func_name, num);
+
+#endif
