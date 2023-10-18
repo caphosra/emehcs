@@ -8,6 +8,7 @@ set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/builtin/comp.c
     ${CMAKE_SOURCE_DIR}/builtin/define.c
     ${CMAKE_SOURCE_DIR}/builtin/display.c
+    ${CMAKE_SOURCE_DIR}/builtin/internals.c
     ${CMAKE_SOURCE_DIR}/builtin/lambda.c
     ${CMAKE_SOURCE_DIR}/builtin/let.c
     ${CMAKE_SOURCE_DIR}/builtin/list.c
@@ -21,6 +22,7 @@ set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/env.c
     ${CMAKE_SOURCE_DIR}/evaluation.c
     ${CMAKE_SOURCE_DIR}/main.c
+    ${CMAKE_SOURCE_DIR}/optimizer.c
     ${CMAKE_SOURCE_DIR}/parser.c
     ${CMAKE_SOURCE_DIR}/tokenizer.c
 )

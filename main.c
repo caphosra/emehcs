@@ -5,6 +5,7 @@
 #include "parser.h"
 #include "tokenizer.h"
 #include "builtin.h"
+#include "optimizer.h"
 #include "utils/error.h"
 #include "utils/utils.h"
 
@@ -22,8 +23,11 @@ int main(void) {
 
             Expr* expr = parse_expr(arr);
             print_expr(expr);
+            Expr* optimized = optimize_tail_recursion(expr);
+            print_expr(optimized);
 
-            Value* val = evaluate(env, expr);
+            printf("--------------------\n");
+            Value* val = evaluate(env, optimized);
             print_value(val);
             printf("\n");
         }

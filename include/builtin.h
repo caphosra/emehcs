@@ -22,6 +22,8 @@ Value* get_builtin_define();
 
 Value* get_builtin_display();
 
+Value* get_builtin_tail_rec();
+
 Value* get_builtin_lambda();
 
 Value* get_builtin_let();

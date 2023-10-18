@@ -6,6 +6,7 @@ void setup_builtin(Environment* env) {
     BUILTIN("if", branch);
     BUILTIN("define", define);
     BUILTIN("display", display);
+    BUILTIN("__tail_rec", tail_rec);
     BUILTIN("=", eq);
     BUILTIN("equal?", is_equal);
     BUILTIN(">", gt);
