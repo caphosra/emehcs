@@ -31,8 +31,6 @@ int optimize_tail_recursion(Expr* expr) {
 
     char* func_name = definition->args[0]->var_name;
     if (contains_tail_recursion(func_name, body)) {
-        printf("A tail recursion detected.\n");
-
         ALLOC(tail_recursion_name, Expr);
         tail_recursion_name->type = E_VAR;
         tail_recursion_name->var_name = "__tail_rec";
