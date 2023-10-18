@@ -65,7 +65,7 @@ int is_list(Value* value) {
     }
 }
 
-void print_value(Value* value) {
+void print_value_internal(Value* value) {
     switch (value->type) {
         case V_NUM: {
             printf("%d", value->num);
@@ -127,6 +127,11 @@ void print_value(Value* value) {
         case V_NULL:
             break;
     }
+}
+
+void print_value(Value* value) {
+    print_value_internal(value);
+    if (value->type != V_NULL) printf("\n");
 }
 
 int count_arguments(Expr** exprs) {

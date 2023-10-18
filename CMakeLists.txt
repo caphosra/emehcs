@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(emehcs VERSION 1.0.0)
 
+option(OUTPUT_INTERMEDIATE_OBJ "Outputs intermediate objects." OFF)
+
 set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/builtin/add.c
     ${CMAKE_SOURCE_DIR}/builtin/branch.c
@@ -29,3 +31,7 @@ set(EMEHCS_SOURCES
 
 add_executable(emehcs ${EMEHCS_SOURCES})
 target_include_directories(emehcs PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+if(OUTPUT_INTERMEDIATE_OBJ)
+    target_compile_definitions(emehcs PRIVATE EMEHCS_OUTPUT_INTERMEDIATE_OBJ)
+endif(OUTPUT_INTERMEDIATE_OBJ)

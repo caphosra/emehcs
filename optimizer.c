@@ -19,15 +19,15 @@ int contains_tail_recursion(char* func_name, Expr* func_body) {
     else return 0;
 }
 
-Expr* optimize_tail_recursion(Expr* expr) {
-    if (expr->type != E_APP || !expr->args[2] || expr->args[3]) return expr;
+int optimize_tail_recursion(Expr* expr) {
+    if (expr->type != E_APP || !expr->args[2] || expr->args[3]) return 0;
 
     Expr* name = expr->args[0];
     Expr* definition = expr->args[1];
     Expr* body = expr->args[2];
 
-    if (name->type != E_VAR || strcmp(name->var_name, "define")) return expr;
-    if (definition->type != E_APP || definition->args[0]->type != E_VAR) return expr;
+    if (name->type != E_VAR || strcmp(name->var_name, "define")) return 0;
+    if (definition->type != E_APP || definition->args[0]->type != E_VAR) return 0;
 
     char* func_name = definition->args[0]->var_name;
     if (contains_tail_recursion(func_name, body)) {
@@ -44,7 +44,7 @@ Expr* optimize_tail_recursion(Expr* expr) {
         optimized->args[2] = body;
 
         expr->args[2] = optimized;
-        return expr;
+        return 1;
     }
-    else return expr;
+    else return 0;
 }

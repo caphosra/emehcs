@@ -19,17 +19,32 @@ int main(void) {
             printf("Error: %s (%s line: %d)\n", err_msg, err_file, err_pos);
         } else {
             ExtArr* arr = tokenize(stdin);
+
+#ifdef EMEHCS_OUTPUT_INTERMEDIATE_OBJ
+            printf("-----< tokenizer >-----\n");
             print_tokens(arr);
+#endif
 
             Expr* expr = parse_expr(arr);
-            print_expr(expr);
-            Expr* optimized = optimize_tail_recursion(expr);
-            print_expr(optimized);
 
-            printf("--------------------\n");
-            Value* val = evaluate(env, optimized);
+#ifdef EMEHCS_OUTPUT_INTERMEDIATE_OBJ
+            printf("-----<  parser  >------\n");
+            print_expr(expr);
+#endif
+
+            if (optimize_tail_recursion(expr)) {
+#ifdef EMEHCS_OUTPUT_INTERMEDIATE_OBJ
+                printf("-----< optimizer >-----\n");
+                print_expr(expr);
+#endif
+            }
+
+#ifdef EMEHCS_OUTPUT_INTERMEDIATE_OBJ
+            printf("-----------------------\n");
+#endif
+
+            Value* val = evaluate(env, expr);
             print_value(val);
-            printf("\n");
         }
     }
 }
