@@ -8,10 +8,10 @@
 #include "utils/error.h"
 #include "utils/utils.h"
 
-const Value CONST_NIL_PAIR = { .type = V_NIL_PAIR, .num = 0 };
-const Value CONST_TRUE = { .type = V_BOOL, .num = 1 };
-const Value CONST_FALSE = { .type = V_BOOL, .num = 0 };
-const Value CONST_UNDEFINED = { .type = V_UNDEFINED, .num = 0 };
+const Value CONST_NIL_PAIR_OBJ = { .type = V_NIL_PAIR, .num = 0 };
+const Value CONST_TRUE_OBJ = { .type = V_BOOL, .num = 1 };
+const Value CONST_FALSE_OBJ = { .type = V_BOOL, .num = 0 };
+const Value CONST_UNDEFINED_OBJ = { .type = V_UNDEFINED, .num = 0 };
 
 Value* evaluate(Environment* env, Expr* expr) {
     switch (expr->type) {
@@ -51,30 +51,6 @@ Value* evaluate(Environment* env, Expr* expr) {
             return val;
         }
     }
-}
-
-void setup_builtin(Environment* env) {
-    put_variable(env, "+", get_builtin_add());
-    put_variable(env, "if", get_builtin_branch());
-    put_variable(env, "define", get_builtin_define());
-    put_variable(env, "display", get_builtin_display());
-    put_variable(env, "=", get_builtin_eq());
-    put_variable(env, "equal?", get_builtin_is_equal());
-    put_variable(env, ">", get_builtin_gt());
-    put_variable(env, ">=", get_builtin_gte());
-    put_variable(env, "list?", get_builtin_is_list());
-    put_variable(env, "lambda", get_builtin_lambda());
-    put_variable(env, "let", get_builtin_let());
-    put_variable(env, "let*", get_builtin_let_ex());
-    put_variable(env, "list", get_builtin_list());
-    put_variable(env, "<", get_builtin_lt());
-    put_variable(env, "<=", get_builtin_lte());
-    put_variable(env, "-", get_builtin_minus());
-    put_variable(env, "*", get_builtin_mul());
-    put_variable(env, "quote", get_builtin_quote());
-    put_variable(env, "cons", get_builtin_cons());
-    put_variable(env, "car", get_builtin_car());
-    put_variable(env, "cdr", get_builtin_cdr());
 }
 
 int is_list(Value* value) {

@@ -4,6 +4,7 @@
 #include "evaluation.h"
 #include "parser.h"
 #include "tokenizer.h"
+#include "builtin.h"
 #include "utils/error.h"
 #include "utils/utils.h"
 

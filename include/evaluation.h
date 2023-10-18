@@ -36,10 +36,15 @@ struct _Value {
     };
 };
 
-extern const Value CONST_NIL_PAIR;
-extern const Value CONST_TRUE;
-extern const Value CONST_FALSE;
-extern const Value CONST_UNDEFINED;
+extern const Value CONST_NIL_PAIR_OBJ;
+extern const Value CONST_TRUE_OBJ;
+extern const Value CONST_FALSE_OBJ;
+extern const Value CONST_UNDEFINED_OBJ;
+
+#define CONST_NIL_PAIR ((Value*)(&CONST_NIL_PAIR_OBJ))
+#define CONST_TRUE ((Value*)(&CONST_TRUE_OBJ))
+#define CONST_FALSE ((Value*)(&CONST_FALSE_OBJ))
+#define CONST_UNDEFINED ((Value*)(&CONST_UNDEFINED_OBJ))
 
 struct _EnvironmentSet {
     EnvironmentSet* prev;
@@ -57,7 +62,6 @@ Value* find_variable(Environment* env, char* name);
 void copy_env(Environment* dist, Environment* src);
 
 Value* evaluate(Environment* env, Expr* expr);
-void setup_builtin(Environment* env);
 void print_value(Value* value);
 
 int count_arguments(Expr** exprs);

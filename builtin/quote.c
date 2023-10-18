@@ -7,7 +7,7 @@ Value* quote(Environment* env, Expr* expr) {
     switch (expr->type) {
         case E_APP: {
             if (!expr->args[0]) {
-                return &CONST_NIL_PAIR;
+                return CONST_NIL_PAIR;
             }
             ALLOC(val, Value);
             val->type = V_PAIR;
@@ -27,7 +27,7 @@ Value* quote(Environment* env, Expr* expr) {
                 arg_num++;
             }
 
-            *parent_right = &CONST_NIL_PAIR;
+            *parent_right = CONST_NIL_PAIR;
             return val;
         }
         case E_VAR: {

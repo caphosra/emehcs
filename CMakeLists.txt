@@ -15,6 +15,7 @@ set(EMEHCS_SOURCES
     ${CMAKE_SOURCE_DIR}/builtin/mul.c
     ${CMAKE_SOURCE_DIR}/builtin/pair.c
     ${CMAKE_SOURCE_DIR}/builtin/quote.c
+    ${CMAKE_SOURCE_DIR}/builtin/setup.c
     ${CMAKE_SOURCE_DIR}/utils/extarr.c
     ${CMAKE_SOURCE_DIR}/utils/peekable.c
     ${CMAKE_SOURCE_DIR}/env.c

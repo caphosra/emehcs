@@ -29,7 +29,7 @@ Value* builtin_display_internal(Environment* env, Expr** args, void* internal) {
     }
     else print_value(val);
 
-    return &CONST_UNDEFINED;
+    return CONST_UNDEFINED;
 }
 
 Value* get_builtin_display() {

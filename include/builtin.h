@@ -1,4 +1,11 @@
+#pragma once
+
 #include "evaluation.h"
+
+#define BUILTIN(var_name, ident) \
+    { put_variable(env, var_name, (get_builtin_##ident)()); }
+
+void setup_builtin(Environment* env);
 
 Value* get_builtin_add();
 

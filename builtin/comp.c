@@ -157,10 +157,10 @@ Value* builtin_is_equal_internal(Environment* env, Expr** args, void* internal) 
     Value* right = evaluate(env, args[1]);
 
     if (is_equal(env, left, right)) {
-        return &CONST_TRUE;
+        return CONST_TRUE;
     }
     else {
-        return &CONST_FALSE;
+        return CONST_FALSE;
     }
 }
 

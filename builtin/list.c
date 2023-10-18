@@ -5,7 +5,7 @@
 
 Value* builtin_list_internal(Environment* env, Expr** args, void* internal) {
     if (!args[0]) {
-        return &CONST_NIL_PAIR;
+        return CONST_NIL_PAIR;
     }
     ALLOC(val, Value);
     val->type = V_PAIR;
@@ -25,7 +25,7 @@ Value* builtin_list_internal(Environment* env, Expr** args, void* internal) {
         arg_num++;
     }
 
-    *parent_right = &CONST_NIL_PAIR;
+    *parent_right = CONST_NIL_PAIR;
     return val;
 }
 
@@ -41,10 +41,10 @@ Value* builtin_is_list_internal(Environment* env, Expr** args, void* internal) {
 
     Value* val = evaluate(env, args[0]);
     if (val->type == V_PAIR) {
-        return &CONST_TRUE;
+        return CONST_TRUE;
     }
     else {
-        return &CONST_FALSE;
+        return CONST_FALSE;
     }
 }
 
