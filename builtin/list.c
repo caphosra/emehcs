@@ -40,7 +40,7 @@ Value* builtin_is_list_internal(Environment* env, Expr** args, void* internal) {
     VALIDATE_ARGS_NUM("list?", args, 1);
 
     Value* val = evaluate(env, args[0]);
-    if (val->type == V_PAIR) {
+    if (val->type == V_PAIR || val->type == V_NIL_PAIR) {
         return CONST_TRUE;
     }
     else {
@@ -52,5 +52,24 @@ Value* get_builtin_is_list() {
     ALLOC(val, Value);
     val->type = V_FUNCTION;
     val->evaluate_func = *builtin_is_list_internal;
+    return val;
+}
+
+Value* builtin_is_null_internal(Environment* env, Expr** args, void* internal) {
+    VALIDATE_ARGS_NUM("null?", args, 1);
+
+    Value* val = evaluate(env, args[0]);
+    if (val->type == V_NIL_PAIR) {
+        return CONST_TRUE;
+    }
+    else {
+        return CONST_FALSE;
+    }
+}
+
+Value* get_builtin_is_null() {
+    ALLOC(val, Value);
+    val->type = V_FUNCTION;
+    val->evaluate_func = *builtin_is_null_internal;
     return val;
 }

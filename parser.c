@@ -48,14 +48,13 @@ Expr* parse_expr(ExtArr* arr) {
 
             ALLOC(expr, Expr);
             expr->type = E_APP;
-            expr->args[0] = parse_expr(arr);
 
             int pos = 0;
             while (look_token(arr)->type != T_RIGHT_PAREN) {
-                if (pos == ARG_LENGTH_MAX) {
+                if (pos == ARG_LENGTH_MAX + 1) {
                     REPORT_ERR("The number of arguments is too large.");
                 }
-                expr->args[pos + 1] = parse_expr(arr);
+                expr->args[pos] = parse_expr(arr);
                 pos++;
             }
             ext_arr_consume(arr);

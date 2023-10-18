@@ -28,6 +28,7 @@ Value* get_builtin_let();
 Value* get_builtin_let_ex();
 
 Value* get_builtin_is_list();
+Value* get_builtin_is_null();
 Value* get_builtin_list();
 
 Value* get_builtin_minus();

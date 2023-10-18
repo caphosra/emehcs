@@ -30,12 +30,14 @@ Value* evaluate(Environment* env, Expr* expr) {
         case E_VAR: {
             Value* val = find_variable(env, expr->var_name);
             if (!val) {
-                REPORT_ERR("The variable is not found.");
+                REPORT_ERR("The variable %.10s is not found.", expr->var_name);
             }
 
             return val;
         }
         case E_APP: {
+            ASSERT(expr->args[0], "A function to be executed is required.");
+
             Value* func = evaluate(env, expr->args[0]);
 
             if (func->type != V_FUNCTION) {

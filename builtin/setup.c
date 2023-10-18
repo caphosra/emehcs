@@ -11,6 +11,7 @@ void setup_builtin(Environment* env) {
     BUILTIN(">", gt);
     BUILTIN(">=", gte);
     BUILTIN("list?", is_list);
+    BUILTIN("null?", is_null);
     BUILTIN("lambda", lambda);
     BUILTIN("let", let);
     BUILTIN("let*", let_ex);
