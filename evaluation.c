@@ -12,6 +12,7 @@ const Value CONST_NIL_PAIR_OBJ = { .type = V_NIL_PAIR, .num = 0 };
 const Value CONST_TRUE_OBJ = { .type = V_BOOL, .num = 1 };
 const Value CONST_FALSE_OBJ = { .type = V_BOOL, .num = 0 };
 const Value CONST_UNDEFINED_OBJ = { .type = V_UNDEFINED, .num = 0 };
+const Value CONST_NULL_OBJ = { .type = V_NULL, .num = 0 };
 
 Value* evaluate(Environment* env, Expr* expr) {
     switch (expr->type) {
@@ -123,6 +124,8 @@ void print_value(Value* value) {
             printf("#undefined");
             break;
         }
+        case V_NULL:
+            break;
     }
 }
 

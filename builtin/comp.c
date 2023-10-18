@@ -138,6 +138,7 @@ int is_equal(Environment* env, Value* left, Value* right) {
             return is_equal(env, left->left, right->left)
                 && is_equal(env, left->right, right->right);
         }
+        case V_NULL:
         case V_NIL_PAIR: {
             return 1;
         }

@@ -44,7 +44,7 @@ Value* builtin_define_internal(Environment* env, Expr** args, void* internal) {
     }
     else REPORT_ERR("The name of the function to be defined is invalid.");
 
-    return CONST_UNDEFINED;
+    return CONST_NULL;
 }
 
 Value* get_builtin_define() {

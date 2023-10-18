@@ -16,7 +16,8 @@ enum _ValueType {
     V_PAIR,
     V_NIL_PAIR,
     V_IDENT,
-    V_UNDEFINED
+    V_UNDEFINED,
+    V_NULL
 };
 
 struct _Value {
@@ -40,11 +41,13 @@ extern const Value CONST_NIL_PAIR_OBJ;
 extern const Value CONST_TRUE_OBJ;
 extern const Value CONST_FALSE_OBJ;
 extern const Value CONST_UNDEFINED_OBJ;
+extern const Value CONST_NULL_OBJ;
 
 #define CONST_NIL_PAIR ((Value*)(&CONST_NIL_PAIR_OBJ))
 #define CONST_TRUE ((Value*)(&CONST_TRUE_OBJ))
 #define CONST_FALSE ((Value*)(&CONST_FALSE_OBJ))
 #define CONST_UNDEFINED ((Value*)(&CONST_UNDEFINED_OBJ))
+#define CONST_NULL ((Value*)(&CONST_NULL_OBJ))
 
 struct _EnvironmentSet {
     EnvironmentSet* prev;
