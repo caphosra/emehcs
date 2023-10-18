@@ -72,6 +72,9 @@ void setup_builtin(Environment* env) {
     put_variable(env, "-", get_builtin_minus());
     put_variable(env, "*", get_builtin_mul());
     put_variable(env, "quote", get_builtin_quote());
+    put_variable(env, "cons", get_builtin_cons());
+    put_variable(env, "car", get_builtin_car());
+    put_variable(env, "cdr", get_builtin_cdr());
 }
 
 int is_list(Value* value) {
