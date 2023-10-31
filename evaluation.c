@@ -96,7 +96,7 @@ void print_value_internal(Value* value) {
                     if (fst) fst = 0;
                     else printf(" ");
 
-                    print_value(current->left);
+                    print_value_internal(current->left);
 
                     current = current->right;
                 }
@@ -105,9 +105,9 @@ void print_value_internal(Value* value) {
             }
             else {
                 printf("(");
-                print_value(value->left);
+                print_value_internal(value->left);
                 printf(" . ");
-                print_value(value->right);
+                print_value_internal(value->right);
                 printf(")");
                 break;
             }
