@@ -124,8 +124,7 @@ int is_equal(Environment* env, Value* left, Value* right) {
 
     switch (left->type) {
         case V_FUNCTION: {
-            // TODO: compare functions.
-            return 0;
+            return left->evaluate_func == right->evaluate_func && left->internal == right->internal;
         }
         case V_BOOL:
         case V_NUM: {
